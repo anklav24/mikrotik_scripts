@@ -1,0 +1,1 @@
+/system script run Release-lte1-wan

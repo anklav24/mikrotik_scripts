@@ -1,0 +1,7 @@
+:global CurrentIP;
+:local TargetIP YOUR_PERMANENT_IP_ADDRESS;
+
+:if ($TargetIP = $CurrentIP) do={
+    [/ip dhcp-client release lte1-wan];
+    :log info "YOUR_IP_ADDRESS is up. Release YOTA";
+};

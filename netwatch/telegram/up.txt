@@ -1,0 +1,6 @@
+:local Message "access to zabbix24.duckdns.org UP";
+
+:local DeviceName [/system identity get name];
+:local MessageText "\E2\9C\85 $DeviceName: $Message";
+:local SendTelegramMessage [:parse [/system script  get MyTGBotSendMessage source]]; 
+$SendTelegramMessage MessageText=$MessageText;

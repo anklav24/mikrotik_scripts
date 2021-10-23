@@ -1,0 +1,30 @@
+:global CurrentIP;
+:local TargetIP YOUR_PERMANENT_IP_ADDRESS;
+:local NewIP ([/tool fetch url=http://api.ipify.org/ as-value output=user] -> "data")
+
+:if ($NewIP != $CurrentIP) do={
+    # Variables
+    :local Time [/system clock get time];
+    :local Date [/system clock get date];
+    :local DeviceName [/system identity get name];
+    :local Text "Previous IP: $CurrentIP New IP: $NewIP";
+    :set CurrentIP $NewIP;
+
+
+    # START Send Telegram Module
+
+    :if ($TargetIP = $CurrentIP) do={
+    :local MessageText "\E2\9C\85 <b>$DeviceName: External IP address has returned.</b> $Text";
+    :local SendTelegramMessage [:parse [/system script  get MyTGBotSendMessage source]]; 
+    $SendTelegramMessage MessageText=$MessageText;;
+    } else={
+    :local MessageText "\E2\9A\A0 <b>$DeviceName: External IP address has changed.</b> $Text";
+    :local SendTelegramMessage [:parse [/system script  get MyTGBotSendMessage source]]; 
+    $SendTelegramMessage MessageText=$MessageText;
+    }
+
+    :local SendTelegramMessage [:parse [/system script  get MyTGBotSendMessage source]]; 
+    $SendTelegramMessage MessageText=$MessageText;
+
+    #END Send Telegram Module
+}
