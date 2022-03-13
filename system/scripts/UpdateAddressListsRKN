@@ -1,0 +1,11 @@
+:local hostnames {"rutracker.org";"linkedin.com";"bitcointalk.org";"kinogo.la";"seasonvar.ru";"4pda.to"}
+:local listname "rkn"
+:local ips
+
+/ip firewall address-list remove [find where list=$listname]
+
+:foreach hostname in $hostnames do={
+    :do {:set ips [:resolve $hostname]} on-error={:log info ("failed to resolve $hostname")}
+
+    /ip firewall address-list add address=$ips list=$listname comment=$hostname
+}
